@@ -4,10 +4,7 @@ import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import Cart, { CartItem } from '@/components/Cart';
 
-const FloatingLeaf = ({ delay, left, top }: { delay: number; left: number; top: number }) => {
-  const leafEmojis = ['🌿', '🍂', '🍁', '☘️'];
-  const randomLeaf = leafEmojis[Math.floor(Math.random() * leafEmojis.length)];
-  
+const FloatingLeaf = ({ delay, left, top, emoji }: { delay: number; left: number; top: number; emoji: string }) => {
   return (
     <div
       className="absolute text-4xl opacity-25 animate-float"
@@ -17,7 +14,7 @@ const FloatingLeaf = ({ delay, left, top }: { delay: number; left: number; top: 
         top: `${top}%`,
       }}
     >
-      {randomLeaf}
+      {emoji}
     </div>
   );
 };
@@ -36,6 +33,49 @@ const SteamLine = ({ delay, offset }: { delay: number; offset: number }) => {
     </div>
   );
 };
+
+const leafPositions = [
+  { left: 5, top: 10, emoji: '🌿', delay: 0 },
+  { left: 15, top: 25, emoji: '🍂', delay: 0.5 },
+  { left: 8, top: 45, emoji: '🍁', delay: 1 },
+  { left: 12, top: 65, emoji: '☘️', delay: 1.5 },
+  { left: 18, top: 80, emoji: '🌿', delay: 2 },
+  { left: 25, top: 15, emoji: '🍁', delay: 0.3 },
+  { left: 30, top: 35, emoji: '🍂', delay: 0.8 },
+  { left: 28, top: 55, emoji: '🌿', delay: 1.3 },
+  { left: 35, top: 75, emoji: '☘️', delay: 1.8 },
+  { left: 40, top: 20, emoji: '🍂', delay: 0.6 },
+  { left: 45, top: 40, emoji: '🍁', delay: 1.1 },
+  { left: 48, top: 60, emoji: '🌿', delay: 1.6 },
+  { left: 42, top: 85, emoji: '🍂', delay: 2.1 },
+  { left: 55, top: 12, emoji: '☘️', delay: 0.4 },
+  { left: 58, top: 30, emoji: '🍁', delay: 0.9 },
+  { left: 52, top: 50, emoji: '🌿', delay: 1.4 },
+  { left: 60, top: 70, emoji: '🍂', delay: 1.9 },
+  { left: 65, top: 18, emoji: '🍁', delay: 0.7 },
+  { left: 68, top: 38, emoji: '🌿', delay: 1.2 },
+  { left: 62, top: 58, emoji: '☘️', delay: 1.7 },
+  { left: 70, top: 82, emoji: '🍂', delay: 2.2 },
+  { left: 75, top: 22, emoji: '🌿', delay: 0.5 },
+  { left: 78, top: 42, emoji: '🍁', delay: 1.0 },
+  { left: 72, top: 62, emoji: '🍂', delay: 1.5 },
+  { left: 80, top: 8, emoji: '☘️', delay: 0.2 },
+  { left: 82, top: 28, emoji: '🍁', delay: 0.7 },
+  { left: 85, top: 48, emoji: '🌿', delay: 1.2 },
+  { left: 78, top: 72, emoji: '🍂', delay: 1.7 },
+  { left: 88, top: 16, emoji: '🍁', delay: 0.4 },
+  { left: 90, top: 35, emoji: '☘️', delay: 0.9 },
+  { left: 92, top: 55, emoji: '🌿', delay: 1.4 },
+  { left: 85, top: 78, emoji: '🍂', delay: 1.9 },
+  { left: 95, top: 25, emoji: '🍁', delay: 0.6 },
+  { left: 93, top: 88, emoji: '🌿', delay: 2.4 },
+  { left: 3, top: 32, emoji: '☘️', delay: 0.8 },
+  { left: 10, top: 52, emoji: '🍁', delay: 1.3 },
+  { left: 20, top: 8, emoji: '🌿', delay: 0.2 },
+  { left: 32, top: 90, emoji: '🍂', delay: 2.5 },
+  { left: 50, top: 5, emoji: '☘️', delay: 0.1 },
+  { left: 55, top: 92, emoji: '🍁', delay: 2.6 },
+];
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -147,12 +187,13 @@ const Index = () => {
       <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
         <div className="absolute inset-0 bg-gradient-to-br from-secondary/30 to-accent/20"></div>
         
-        {[...Array(25)].map((_, i) => (
+        {leafPositions.map((leaf, i) => (
           <FloatingLeaf 
             key={`leaf-${i}`} 
-            delay={i * 0.5} 
-            left={Math.random() * 95} 
-            top={Math.random() * 90}
+            delay={leaf.delay}
+            left={leaf.left}
+            top={leaf.top}
+            emoji={leaf.emoji}
           />
         ))}
         
