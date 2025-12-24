@@ -4,35 +4,34 @@ import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import Cart, { CartItem } from '@/components/Cart';
 
-const CoffeeBeanFalling = ({ delay }: { delay: number }) => {
-  const randomLeft = Math.random() * 100;
-  const randomDuration = 8 + Math.random() * 4;
+const FloatingLeaf = ({ delay, left, top }: { delay: number; left: number; top: number }) => {
+  const leafEmojis = ['🌿', '🍂', '🍁', '☘️'];
+  const randomLeaf = leafEmojis[Math.floor(Math.random() * leafEmojis.length)];
   
   return (
     <div
-      className="absolute text-2xl opacity-60"
+      className="absolute text-4xl opacity-25 animate-float"
       style={{
-        left: `${randomLeft}%`,
+        left: `${left}%`,
         animationDelay: `${delay}s`,
-        animationDuration: `${randomDuration}s`,
+        top: `${top}%`,
       }}
     >
-      <span className="animate-fall">🫘</span>
+      {randomLeaf}
     </div>
   );
 };
 
-const FloatingLeaf = ({ delay, left }: { delay: number; left: number }) => {
+const SteamLine = ({ delay }: { delay: number }) => {
   return (
     <div
-      className="absolute text-3xl opacity-20 animate-float"
+      className="absolute text-2xl opacity-40"
       style={{
-        left: `${left}%`,
         animationDelay: `${delay}s`,
-        top: `${Math.random() * 80 + 10}%`,
+        animation: 'float 2s ease-in-out infinite',
       }}
     >
-      🌿
+      💨
     </div>
   );
 };
@@ -147,17 +146,23 @@ const Index = () => {
       <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
         <div className="absolute inset-0 bg-gradient-to-br from-secondary/30 to-accent/20"></div>
         
-        {[...Array(15)].map((_, i) => (
-          <CoffeeBeanFalling key={i} delay={i * 0.8} />
-        ))}
-        
-        {[...Array(8)].map((_, i) => (
-          <FloatingLeaf key={`leaf-${i}`} delay={i * 1.5} left={10 + i * 12} />
+        {[...Array(25)].map((_, i) => (
+          <FloatingLeaf 
+            key={`leaf-${i}`} 
+            delay={i * 0.5} 
+            left={Math.random() * 95} 
+            top={Math.random() * 90}
+          />
         ))}
         
         <div className="relative z-10 text-center px-4 animate-fade-in">
-          <div className="mb-8">
-            <div className="text-8xl mb-4 animate-float">☕</div>
+          <div className="mb-8 relative">
+            <div className="text-9xl mb-4 animate-float">☕</div>
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-8 flex gap-2">
+              <SteamLine delay={0} />
+              <SteamLine delay={0.3} />
+              <SteamLine delay={0.6} />
+            </div>
           </div>
           
           <h2 className="text-7xl md:text-8xl font-bold mb-6 text-primary" style={{ fontFamily: 'Cormorant, serif' }}>
