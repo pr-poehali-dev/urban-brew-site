@@ -425,7 +425,7 @@ const Index = () => {
             Кофе, который вдохновляет
           </p>
           <p className="text-sm opacity-75">
-            © 2024 Urban Brew. Все права защищены.
+            © 2025 Urban Brew. Все права защищены.
           </p>
         </div>
       </footer>
