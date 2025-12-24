@@ -96,6 +96,11 @@ export default {
 				'fall': {
 					'0%': { transform: 'translateY(-100vh) rotate(0deg)', opacity: '1' },
 					'100%': { transform: 'translateY(100vh) rotate(360deg)', opacity: '0' }
+				},
+				'steam': {
+					'0%': { transform: 'translateY(0) scale(1)', opacity: '0.6' },
+					'50%': { transform: 'translateY(-30px) scale(1.2)', opacity: '0.3' },
+					'100%': { transform: 'translateY(-60px) scale(1.5)', opacity: '0' }
 				}
 			},
 			animation: {
@@ -103,7 +108,8 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-in': 'fade-in 0.5s ease-out',
 				'float': 'float 3s ease-in-out infinite',
-				'fall': 'fall linear infinite'
+				'fall': 'fall linear infinite',
+				'steam': 'steam 2s ease-out infinite'
 			}
 		}
 	},

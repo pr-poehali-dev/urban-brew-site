@@ -22,16 +22,17 @@ const FloatingLeaf = ({ delay, left, top }: { delay: number; left: number; top: 
   );
 };
 
-const SteamLine = ({ delay }: { delay: number }) => {
+const SteamLine = ({ delay, offset }: { delay: number; offset: number }) => {
   return (
     <div
-      className="absolute text-2xl opacity-40"
+      className="absolute animate-steam"
       style={{
         animationDelay: `${delay}s`,
-        animation: 'float 2s ease-in-out infinite',
+        left: `${offset}px`,
+        fontSize: '2rem',
       }}
     >
-      💨
+      <span style={{ filter: 'blur(1px)' }}>☁️</span>
     </div>
   );
 };
@@ -156,12 +157,14 @@ const Index = () => {
         ))}
         
         <div className="relative z-10 text-center px-4 animate-fade-in">
-          <div className="mb-8 relative">
+          <div className="mb-8 relative inline-block">
             <div className="text-9xl mb-4 animate-float">☕</div>
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-8 flex gap-2">
-              <SteamLine delay={0} />
-              <SteamLine delay={0.3} />
-              <SteamLine delay={0.6} />
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 pointer-events-none">
+              <SteamLine delay={0} offset={-20} />
+              <SteamLine delay={0.4} offset={0} />
+              <SteamLine delay={0.8} offset={20} />
+              <SteamLine delay={1.2} offset={-10} />
+              <SteamLine delay={1.6} offset={10} />
             </div>
           </div>
           
