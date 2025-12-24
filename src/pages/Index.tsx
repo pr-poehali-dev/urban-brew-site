@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
+import Cart, { CartItem } from '@/components/Cart';
 
 const CoffeeBeanFalling = ({ delay }: { delay: number }) => {
   const randomLeft = Math.random() * 100;
@@ -21,8 +22,24 @@ const CoffeeBeanFalling = ({ delay }: { delay: number }) => {
   );
 };
 
+const FloatingLeaf = ({ delay, left }: { delay: number; left: number }) => {
+  return (
+    <div
+      className="absolute text-3xl opacity-20 animate-float"
+      style={{
+        left: `${left}%`,
+        animationDelay: `${delay}s`,
+        top: `${Math.random() * 80 + 10}%`,
+      }}
+    >
+      🌿
+    </div>
+  );
+};
+
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId);
@@ -66,6 +83,21 @@ const Index = () => {
             <h1 className="text-3xl font-bold text-primary" style={{ fontFamily: 'Cormorant, serif' }}>
               Urban Brew
             </h1>
+            
+            <div className="flex items-center gap-4">
+              <Cart 
+                items={cartItems}
+                onUpdateQuantity={(index, quantity) => {
+                  const newItems = [...cartItems];
+                  newItems[index].quantity = quantity;
+                  setCartItems(newItems);
+                }}
+                onRemoveItem={(index) => {
+                  setCartItems(cartItems.filter((_, i) => i !== index));
+                }}
+                onClearCart={() => setCartItems([])}
+              />
+            </div>
             
             <div className="hidden md:flex items-center gap-8">
               <button
@@ -117,6 +149,10 @@ const Index = () => {
         
         {[...Array(15)].map((_, i) => (
           <CoffeeBeanFalling key={i} delay={i * 0.8} />
+        ))}
+        
+        {[...Array(8)].map((_, i) => (
+          <FloatingLeaf key={`leaf-${i}`} delay={i * 1.5} left={10 + i * 12} />
         ))}
         
         <div className="relative z-10 text-center px-4 animate-fade-in">
@@ -187,7 +223,31 @@ const Index = () => {
                         <h4 className="text-xl font-semibold text-foreground">{item.name}</h4>
                         <span className="text-lg font-bold text-primary">{item.price}</span>
                       </div>
-                      <p className="text-muted-foreground">{item.description}</p>
+                      <p className="text-muted-foreground mb-4">{item.description}</p>
+                      <Button
+                        size="sm"
+                        className="w-full"
+                        onClick={() => {
+                          const price = parseInt(item.price.replace('₽', ''));
+                          const existingIndex = cartItems.findIndex(ci => ci.name === item.name);
+                          
+                          if (existingIndex >= 0) {
+                            const newItems = [...cartItems];
+                            newItems[existingIndex].quantity += 1;
+                            setCartItems(newItems);
+                          } else {
+                            setCartItems([...cartItems, {
+                              name: item.name,
+                              description: item.description,
+                              price,
+                              quantity: 1
+                            }]);
+                          }
+                        }}
+                      >
+                        <Icon name="ShoppingCart" size={16} className="mr-2" />
+                        В корзину
+                      </Button>
                     </Card>
                   ))}
                 </div>
